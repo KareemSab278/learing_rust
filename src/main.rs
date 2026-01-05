@@ -52,17 +52,29 @@ fn main() {
     // you could use String::from OR .to_string(); it is just personal preference at this point bruh
     string_example.push_str(". You can use push_str() to add stuff to me lol");
     // remember, nothing in rust is mutable, youll need to add the mut keyword before the var name to ensure it can be mutated.
+    // remember, &str is for static strings or string that you wont need on the heap. String goes on the heap. &str is faster but not editable.
     let string_slice_example: &str = &string_example;
     // you can also slice stuff by using the [x..y] option. so like &string_example[0..6];
     println!("{}", string_slice_example);
     say_hello();
     return_height(5.7);
     references_in_rust();
+
+    // lets play with memory
+
+    let mut owner = String::from("owner");
+    let borrower = &mut owner;
+    // once i do this owner is no longer valid. borrower becomes owner because
+    // while a mutable reference to a value exists, you cannot use the original value (the owner) at all,
+    // not even for reading or printing.
+    // This prevents any accidental simultaneous access (even read) while a mutable borrow is active.
+    borrower.push_str(" under borrower");
+
+    // Types like integers, floats, booleans, and characters in Rust are "Copy types"
+    // String type will move ownership unless clone() and &str type will duplicate the pointers so both vars ref to same &str (weird ik)...
+    println!("i am the {}", borrower); // "only one mutable reference"
 }
-
-
 // FUNCTIONS
-
 fn say_hello() {
     println!("hello!")
 }
@@ -74,12 +86,12 @@ fn return_height(height: f32) {
 fn references_in_rust() {
     let owned = String::from("i'm owned");
     let new_owned = String::from(append_str(&owned, " but now under new_owned")); // ownership borrowed here.
-    // let new_owned = owned; // this would mean i transfered ownership completely to new_owned. 
+    // let new_owned = owned; // this would mean i transfered ownership completely to new_owned.
     println!("{}", owned);
     println!("{}", new_owned);
 }
 
-fn append_str(base: &str, string: &str)-> String{
+fn append_str(base: &str, string: &str) -> String {
     let mut output = base.to_string(); // to_string() makes a copy, no ownership changed...
     output.push_str(string);
     return output;
