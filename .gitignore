@@ -1,1 +1,4 @@
 /target
+/output
+/libs
+test.js

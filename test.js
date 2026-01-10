@@ -1,1 +1,0 @@
-// https://github.com/boul2gom/yt-dlp?tab=readme-ov-file
