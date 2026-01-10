@@ -60,3 +60,13 @@ impl Example {
         println!("num: {}", self.number);
     }
 }
+
+// IF ELSE IS BASICALLY LIKE IN JS BUT WITHOUT THE () LOL
+// if n < 0 {
+//     print!("{} is negative", n);
+// } else if n > 0 {
+//     print!("{} is positive", n);
+// } else {
+//     print!("{} is zero", n);
+// }
+// RUST DOESNT HAVE TERNARY OPERATORS 😢
