@@ -1,27 +1,46 @@
-// im attempting to make a vide downloader tho i have no clue wtf im doing lol
-// found some docs and example code online from this amazing repo: // https://github.com/boul2gom/yt-dlp?tab=readme-ov-file
+fn main() {
+    // more on structs
+    let user1 = User::create_user(
+        1,
+        String::from("poop_master3000"),
+        String::from("poop"),
+        String::from("master"),
+        19690420 // YYYYMMDD
+    );
 
-use yt_dlp::Youtube;
-use std::path::PathBuf;
-use yt_dlp::client::deps::Libraries;
+    let black = HexaColor(0,0,0);
 
-// You use :: to call associated functions (like static methods in JS) or access constants: MyStruct::new(), MyStruct::CONSTANT
-
-#[tokio::main]
-pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let libraries_dir = PathBuf::from("libs");
-    let output_dir = PathBuf::from("output");
-    std::fs::create_dir_all(&output_dir)?;
-
-    let youtube = libraries_dir.join("yt-dlp");
-    let ffmpeg = libraries_dir.join("ffmpeg");
-
-    let libraries = Libraries::new(youtube, ffmpeg);
-    let fetcher = Youtube::new(libraries, output_dir).await?;
-
-    let url = String::from("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-    // need to find a way to get video title and set as the second param in download_audio_stream_from_url fn;
-    // fetcher.download_audio_stream_from_url(url, "audio.mp3").await?;
-    fetcher.download_audio_stream_from_url(url, "audio.m4a").await?;
-    Ok(())
+    println!("{:?}", user1); // debug mode only
 }
+
+
+#[derive(Debug)] // you need this to :? print a struct. only use in development
+// without it youll get "cannot be formatted using `{:?}` because it doesn't implement `Debug`"
+struct User {
+    id: i64,
+    user_name: String,
+    first_name: String,
+    last_name: String,
+    dob: i32,
+}
+
+impl User {
+    fn create_user(
+        id: i64,
+        user_name: String,
+        first_name: String,
+        last_name: String,
+        dob: i32
+    ) -> User {
+        User {
+            id,
+            user_name: user_name,
+            first_name,
+            last_name,
+            dob,
+        }
+    }
+}
+
+// tuple-like struct
+struct HexaColor(i32, i32, i32);
