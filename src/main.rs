@@ -2,19 +2,18 @@
 
 // Temperature Converter
 // Convert Celsius ↔ Fahrenheit from user input.
-
-// enum TempType{
-//     Celsius,
-//     Fahrenheit
-// }
-// fn convert_temp(input: f32, tmp_type: TempType) -> f32 {
-//     // could have used char but char is always 4 bytes. str is 1 byte but can be bigger. for simple letter its 1b.
-//     // let input = input as f64; // i had no idea you coul do this....
-//     match tmp_type{
-//         TempType::Celsius => return (input * 1.8) + 32.0,
-//         TempType::Fahrenheit => return (input - 32.0) / 1.8,
-//     }
-// }
+enum TempType{
+    Celsius,
+    Fahrenheit
+}
+fn convert_temp(input: f32, tmp_type: TempType) -> f32 {
+    // could have used char but char is always 4 bytes. str is 1 byte but can be bigger. for simple letter its 1b.
+    // let input = input as f64; // i had no idea you coul do this....
+    match tmp_type{
+        TempType::Celsius => return (input * 1.8) + 32.0,
+        TempType::Fahrenheit => return (input - 32.0) / 1.8,
+    }
+}
 // fn main() {
 //     let temp_to_f = convert_temp(0.0, TempType::Celsius);
 //     let temp_to_c = convert_temp(212.4, TempType::Fahrenheit);
@@ -24,33 +23,34 @@
 
 // ===
 
-// NEXT:
 // Number Guessing Game
 // Computer picks a number, user guesses until correct.
 // Learn: loops, match, randomness.
 
+use rand::Rng;
+use read_input::prelude::*;
 
+fn guess_loop(random_int: u32) {
+    loop {
+        print!("Guess a number between 1 and 10: ");
+        let input = input::<u32>().get();
+        if random_int == input {
+            println!("You won!");
+            return;
+        } else {
+            println!("try again");
+        }
+    }
+}
 
+// fn main() {
+//     let mut range = rand::thread_rng();
+//     // unsigned int because only + ints for guesses between 1 and 10
+//     let random_int: u32 = range.gen_range(0..11);
+//     let _ = guess_loop(random_int);
+// }
 
-
-
-
-
-
-
-
-
-
-// Level 1: Basics
-
-// Temperature Converter
-// Convert Celsius ↔ Fahrenheit from user input.
-// Learn: variables, input, parsing, functions.
-
-// Number Guessing Game
-// Computer picks a number, user guesses until correct.
-// Learn: loops, match, randomness.
-
+// ===
 // FizzBuzz (Rust-style)
 // Print numbers 1–100 with Fizz/Buzz rules.
 // Learn: conditionals, loops.
