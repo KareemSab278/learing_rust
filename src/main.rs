@@ -98,16 +98,29 @@ fn find_words(sentence: &str) {
     }
     println!("{:?}", words_hmap);
 }
-
-fn main() {
-    find_words(
-        "The HashMap should be declared inside the function or passed as a mutable reference."
-    )
-}
+// fn main() {
+//     find_words(
+//         "The HashMap should be declared inside the function or passed as a mutable reference."
+//     )
+// }
 
 // Reverse a String (Safely)
 // Reverse a UTF-8 string correctly (no .chars().rev().collect() shortcut at first 😉).
 // Learn: strings, iterators, Unicode.
+fn reverse_str(input: &str) {
+
+    let chars: Vec<char> = input.chars().collect(); // i can make a arr of chars from a str using chars() and collect() (collect turns iterators into collections like vec or hmap)
+    let mut output: Vec<char> = [].to_vec(); // you have to set an empty vec using [].to_vec()
+    for c in chars.iter().rev(){ // iterate over vec using iter() and to reverse the iterator vec use rev() simpler than js...
+        output.push(*c);
+    }
+    println!("output: {}", output.into_iter().collect::<String>()); // convert a vec into a str you gotta make it iter again since we used collect. then collect again ad turn into strign...
+}
+
+fn main() {
+    let input = "12345";
+    reverse_str(input);
+}
 
 // Todo List (CLI)
 // Add, remove, and list tasks.
