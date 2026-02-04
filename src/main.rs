@@ -108,23 +108,47 @@ fn find_words(sentence: &str) {
 // Reverse a UTF-8 string correctly (no .chars().rev().collect() shortcut at first 😉).
 // Learn: strings, iterators, Unicode.
 fn reverse_str(input: &str) {
-
     let chars: Vec<char> = input.chars().collect(); // i can make a arr of chars from a str using chars() and collect() (collect turns iterators into collections like vec or hmap)
     let mut output: Vec<char> = [].to_vec(); // you have to set an empty vec using [].to_vec()
-    for c in chars.iter().rev(){ // iterate over vec using iter() and to reverse the iterator vec use rev() simpler than js...
+    for c in chars.iter().rev() {
+        // iterate over vec using iter() and to reverse the iterator vec use rev() simpler than js...
         output.push(*c);
     }
     println!("output: {}", output.into_iter().collect::<String>()); // convert a vec into a str you gotta make it iter again since we used collect. then collect again ad turn into strign...
 }
 
-fn main() {
-    let input = "12345";
-    reverse_str(input);
-}
+// fn main() {
+//     let input = "12345";
+//     reverse_str(input);
+// }
 
 // Todo List (CLI)
 // Add, remove, and list tasks.
 // Learn: structs, Vec, mutability.
+ #[derive(Debug)]
+struct ToDo {
+    id: u16,
+    note: String,
+}
+
+impl ToDo {
+    fn add(todos: &mut Vec<ToDo>, id: u16, note: String) {
+        todos.push(ToDo { note, id });
+    }
+
+    fn ls(todos: Vec<ToDo>){
+        println!("your todo: {:?}", todos);
+    }
+}
+
+fn main() {
+    let mut todos: Vec<ToDo> = vec![]; // i forgot what the f that is...
+    // okay so arr is on stack vec is on heap which is why you can resize it. id prefer to avoid using vec as much as possible to stick to smoother perfomance but thats expert shit and im a silly jr dev lol
+    // The vec![] macro in Rust is used to create a new vector, which is a resizable array.
+    // You can initialize it with elements by placing them inside the brackets, like vec![1, 2, 3], or create an empty vector wit
+    ToDo::add(&mut todos, 1, "dont die".to_string());
+    ToDo::ls(todos);
+}
 
 // 🟠 Level 3: Structs & Enums
 
