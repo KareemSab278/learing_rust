@@ -125,7 +125,7 @@ fn reverse_str(input: &str) {
 // Todo List (CLI)
 // Add, remove, and list tasks.
 // Learn: structs, Vec, mutability.
- #[derive(Debug)]
+#[derive(Debug)]
 struct ToDo {
     id: u16,
     note: String,
@@ -136,25 +136,97 @@ impl ToDo {
         todos.push(ToDo { note, id });
     }
 
-    fn ls(todos: Vec<ToDo>){
+    fn ls(todos: Vec<ToDo>) {
         println!("your todo: {:?}", todos);
     }
 }
 
-fn main() {
-    let mut todos: Vec<ToDo> = vec![]; // i forgot what the f that is...
-    // okay so arr is on stack vec is on heap which is why you can resize it. id prefer to avoid using vec as much as possible to stick to smoother perfomance but thats expert shit and im a silly jr dev lol
-    // The vec![] macro in Rust is used to create a new vector, which is a resizable array.
-    // You can initialize it with elements by placing them inside the brackets, like vec![1, 2, 3], or create an empty vector wit
-    ToDo::add(&mut todos, 1, "dont die".to_string());
-    ToDo::ls(todos);
-}
+// fn main() {
+//     let mut todos: Vec<ToDo> = vec![]; // i forgot what the f that is...
+//     // okay so arr is on stack vec is on heap which is why you can resize it. id prefer to avoid using vec as much as possible to stick to smoother perfomance but thats expert shit and im a silly jr dev lol
+//     // The vec![] macro in Rust is used to create a new vector, which is a resizable array.
+//     // You can initialize it with elements by placing them inside the brackets, like vec![1, 2, 3], or create an empty vector wit
+//     ToDo::add(&mut todos, 1, "dont die".to_string());
+//     ToDo::ls(todos);
+// }
 
 // 🟠 Level 3: Structs & Enums
 
 // Simple Bank Account
 // Deposit, withdraw, prevent overdrafts.
 // Learn: methods, impl, error handling.
+
+#[derive(Debug)]
+struct Account {
+    acc_id: u32,
+    name: String,
+    balance: f64,
+}
+
+// let max_value = arr.iter().max().unwrap();
+
+impl Account {
+    fn create_acc(accounts: &mut Vec<Account>, name: String) {
+        let mut ids = vec![];
+        for account in accounts.iter() { // you would use iter here to loop over everything without taking any ownership
+            ids.push(account.acc_id);
+        }
+        if ids.len() == 0 {
+            ids.push(0);
+        }
+        let max_id = ids.iter().max().expect("failed to find max id");
+        accounts.push(Account { acc_id: *max_id + 1, name, balance: 0.0 });
+        println!("account created: {:?}", accounts);
+    }
+
+    fn deposit(accounts: &mut Vec<Account>, acc_id: u32, amount: f64) {
+        // find account by id and add amount to balance
+        for account in accounts.iter_mut() { // iter_mut allows us to change the accounts in the vec
+            if account.acc_id == acc_id {
+                account.balance += amount;
+                println!("deposited ${} to account {}. new balance: ${}", amount, acc_id, account.balance);
+                return;
+            }
+            else {
+                println!("account {} not found", acc_id);
+            }
+        }
+    }
+
+    fn withdraw(accounts: &mut Vec<Account>, acc_id: u32, amount: f64) {
+        for account in accounts.iter_mut() {
+            if account.acc_id == acc_id {
+                if account.balance >= amount {
+                    account.balance -= amount;
+                    println!("withdrew ${} from account {}. new balance: ${}", amount, acc_id, account.balance);
+                } else {
+                    println!("insufficient funds for account {}", acc_id);
+                }
+                return;
+            }
+        }
+    }
+
+    fn check_balance(accounts: &Vec<Account>, acc_id: u32) {
+        for account in accounts.iter() {
+            if account.acc_id == acc_id {
+                println!("account {} balance: ${}", acc_id, account.balance);
+                return;
+            }
+        }
+        println!("account {} not found", acc_id);
+    }
+
+}
+
+fn main() {
+    let mut accounts: Vec<Account> = vec![]; // new vec on heap
+    Account::create_acc(&mut accounts, "bob".to_string());
+    Account::deposit(&mut accounts, 1, 100.0);
+    Account::withdraw(&mut accounts, 1, 30.0);
+    Account::withdraw(&mut accounts, 1, 80.0);
+    Account::check_balance(&accounts, 1);
+}
 
 // Shape Area Calculator
 // Enum for Circle, Rectangle, Triangle.
