@@ -168,7 +168,8 @@ struct Account {
 impl Account {
     fn create_acc(accounts: &mut Vec<Account>, name: String) {
         let mut ids = vec![];
-        for account in accounts.iter() { // you would use iter here to loop over everything without taking any ownership
+        for account in accounts.iter() {
+            // you would use iter here to loop over everything without taking any ownership
             ids.push(account.acc_id);
         }
         if ids.len() == 0 {
@@ -181,13 +182,18 @@ impl Account {
 
     fn deposit(accounts: &mut Vec<Account>, acc_id: u32, amount: f64) {
         // find account by id and add amount to balance
-        for account in accounts.iter_mut() { // iter_mut allows us to change the accounts in the vec
+        for account in accounts.iter_mut() {
+            // iter_mut allows us to change the accounts in the vec
             if account.acc_id == acc_id {
                 account.balance += amount;
-                println!("deposited ${} to account {}. new balance: ${}", amount, acc_id, account.balance);
+                println!(
+                    "deposited ${} to account {}. new balance: ${}",
+                    amount,
+                    acc_id,
+                    account.balance
+                );
                 return;
-            }
-            else {
+            } else {
                 println!("account {} not found", acc_id);
             }
         }
@@ -198,7 +204,12 @@ impl Account {
             if account.acc_id == acc_id {
                 if account.balance >= amount {
                     account.balance -= amount;
-                    println!("withdrew ${} from account {}. new balance: ${}", amount, acc_id, account.balance);
+                    println!(
+                        "withdrew ${} from account {}. new balance: ${}",
+                        amount,
+                        acc_id,
+                        account.balance
+                    );
                 } else {
                     println!("insufficient funds for account {}", acc_id);
                 }
@@ -216,27 +227,60 @@ impl Account {
         }
         println!("account {} not found", acc_id);
     }
-
 }
 
-fn main() {
-    let mut accounts: Vec<Account> = vec![]; // new vec on heap
-    Account::create_acc(&mut accounts, "bob".to_string());
-    Account::deposit(&mut accounts, 1, 100.0);
-    Account::withdraw(&mut accounts, 1, 30.0);
-    Account::withdraw(&mut accounts, 1, 80.0);
-    Account::check_balance(&accounts, 1);
-}
+// fn main() {
+//     let mut accounts: Vec<Account> = vec![]; // new vec on heap
+//     Account::create_acc(&mut accounts, "bob".to_string());
+//     Account::deposit(&mut accounts, 1, 100.0);
+//     Account::withdraw(&mut accounts, 1, 30.0);
+//     Account::withdraw(&mut accounts, 1, 80.0);
+//     Account::check_balance(&accounts, 1);
+// }
 
 // Shape Area Calculator
 // Enum for Circle, Rectangle, Triangle.
 // Learn: enums, pattern matching.
+#[derive(Debug)]
+enum Shape {
+    Circle(u32),
+    Rectangle(u32, u32),
+    Triangle(u32, u32, u32),
+}
+
+impl Shape {
+    fn calc_area(shape: Shape) {
+        match shape {
+            Shape::Circle(radius) => {
+                let area = std::f64::consts::PI * (radius as f64).powi(2);
+                println!("Circle area: {}", area);
+            }
+            Shape::Rectangle(length, width) => {
+                let area = length * width;
+                println!("Rectangle area: {}", area);
+            }
+            Shape::Triangle(base, height, _side) => {
+                let area = 0.5 * (base as f64) * (height as f64);
+                println!("Triangle area: {}", area);
+            }
+        }
+    }
+}
+
+fn main() {
+    // apparently everything will be an error unless you have a main fn...
+    let rectangle= Shape::Rectangle((20), (50));
+    let _ = Shape::calc_area(rectangle);
+}
 
 // 🔴 Level 4: Error Handling & Files
 
 // File Line Counter
 // Count lines, words, characters in a file.
 // Learn: Result, ?, file I/O.
+
+// already working on this in another project
+// done with ts
 
 // Config Parser (Tiny)
 // Parse a file like:
