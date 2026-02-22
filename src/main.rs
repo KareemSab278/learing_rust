@@ -1,4 +1,5 @@
 // https://leetcode.ca/all/problems.html
+
 // fn find_two_sum(mut input: Vec<i32>, target: i32) -> Result<Vec<i32>, [i32; 2]> {
 //     input.sort();
 //     let mut output = Vec::new();
@@ -28,22 +29,50 @@
 //     }
 // }
 
-fn rev_int(input: i32) -> i32 {
-    let mut output: Vec<u32> = input
-        .to_string()
-        .chars()
-        .map(|chr| chr.to_digit(10).unwrap())
-        .collect();
-    output.reverse();
-    let reversed_str: String = output
-        .iter()
-        .map(|d| d.to_string())
-        .collect();
-    let reversed_int: i32 = reversed_str.parse().unwrap();
-    println!("{}", reversed_int);
-    reversed_int
+// fn rev_int(input: i32) -> i32 {
+//     let mut output: Vec<u32> = input
+//         .to_string()
+//         .chars()
+//         .map(|chr| chr.to_digit(10).expect("Invalid number inserted"))
+//         .collect();
+
+//     output.reverse();
+
+//     let output_collected_str: String = output
+//         .iter()
+//         .map(|o| o.to_string())
+//         .collect();
+
+//     let output_collected_int: i32 = output_collected_str
+//         .parse()
+//         .expect("Could not convert the output str to int");
+//     println!("{}", output_collected_int);
+//     return output_collected_int;
+// }
+
+// fn main() {
+//     rev_int(32);
+// }
+
+fn longest_substr(input: String) -> i16 {
+    let mut stack: Vec<char> = Vec::new();
+    let mut iter: usize = 0;
+    let input_c: Vec<char> = input.chars().collect();
+    while iter < input.len() {
+        if !stack.contains(&input_c[iter]) {
+            stack.push(input_c[iter]);
+        }
+        iter += 1;
+    }
+    let stacklen= stack.len();
+    let output: i16 = stacklen as i16;
+    println!("{}", output);
+    return output;
+
+    // i just realized i coul have used a set... but idk how in rust yet lol
 }
 
 fn main() {
-    rev_int(32);
+    let test_str: String = "veveveveveveve".to_string();
+    longest_substr(test_str);
 }
