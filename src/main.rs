@@ -15,41 +15,91 @@
 //     println!("{output}, {output1}");
 // }
 
-
 // Borrow Checker Fun
 // Create a function that takes a reference to a vector of integers and returns the sum.
 // Try modifying the vector inside the function while also returning a reference.
 // Goal: Understand borrowing and mutable vs immutable references.
 
-fn sum_vec(input: Vec<i32>)-> i32{
-    let mut tot: i32 = 0;
-    for num in input{
-        tot += num
-    }
-    tot
-}
+// fn sum_vec(input: Vec<i32>)-> i32{
+//     let mut tot: i32 = 0;
+//     for num in input{
+//         tot += num
+//     }
+//     tot
+// }
 
-fn main(){
-    let nums: Vec<i32> = [1,1,1,1,1,1].to_vec();
-    let output: i32 = nums.iter().sum();
-    println!("{output}"); 
-}
+// fn main(){
+//     let nums: Vec<i32> = [1,1,1,1,1,1].to_vec();
+//     let output: i32 = nums.iter().sum();
+//     println!("{output}");
+// }
 
 // Structs & Methods
-
 // Define a struct called Rectangle with width and height.
-
 // Implement a method area that returns the area.
-
 // Implement another method can_hold(&self, other: &Rectangle) that returns true if self can fully contain other.
+
+// struct Rectangle{
+//     width: i32,
+//     height: i32,
+// }
+// impl Rectangle{
+//     fn calc_area(width: i32, height:i32)->i32{
+//         return width * height;
+//     }
+
+//     fn can_hold(curr_rectangle: &self, comparison_triangle: Rectangle) -> bool {
+//         if Self::calc_area(curr_rectangle.width, curr_rectangle.height) > calc_area(comparison_triangle.width, comparison_triangle.height){
+//             return true
+//         } else {
+//             return false
+//         }
+//     }
+// }
+
+// fn main(){
+//     let mut rec = new Rectangle();
+//     rec.width = 20;
+//     rec.height = 15;
+
+//     println!("{}", rec.calc_area());
+// }
 
 // Enums & Pattern Matching
 
 // Define an enum Shape with variants Circle(f64), Rectangle(f64, f64), Triangle(f64, f64, f64).
 
-// Write a function that takes a Shape and returns its perimeter.
+enum Shape {
+    Circle(f64),
+    Rectangle {
+        a: f64,
+        b: f64,
+    },
+    Triangle {
+        a: f64,
+        b: f64,
+        c: f64,
+    },
+}
 
+fn find_perimiter(shape: Shape) -> f64 {
+    match shape {
+        Shape::Circle(circumference) => circumference,
+        Shape::Rectangle { a, b } => {a+b},
+        Shape::Triangle { a, b, c } => {a+b+c},
+    }
+}
+// this is the most beautiful code i have ever seen...
+
+fn main() { 
+    let circle: f64 = find_perimiter(Shape::Circle((32.0)));
+    let rectangle: f64 = find_perimiter(Shape::Rectangle { a: (1.0), b: (2.0) });
+    let triangle: f64 = find_perimiter(Shape::Triangle { a: (1.0), b: (2.0), c: (3.0) });
+    println!("{circle}, {rectangle}, {triangle}");
+}
+// Write a function that takes a Shape and returns its perimeter.
 // Goal: Practice pattern matching.
+
 
 // Intermediate Exercises
 
