@@ -133,45 +133,75 @@
 // Read a text file line by line and convert each line to an integer.
 // Handle potential errors using Result and ?.
 // Goal: Practice error propagation.
-use std::{ fmt::format, fs };
-use std::io;
+// use std::{ fmt::format, fs };
+// use std::io;
 
-fn read_content(path: &str) -> Result<String, io::Error> { // for fs ops you need io::Error in Result enum
-    let contents = fs::read_to_string(&path);
-    return contents;
-}
+// fn read_content(path: &str) -> Result<String, io::Error> { // for fs ops you need io::Error in Result enum
+//     let contents = fs::read_to_string(&path);
+//     return contents;
+// }
 
-fn main() {
-    let path = "error_handling.txt";
-    let contents = read_content(&path).expect("Couldn't read from file");
-    let text = contents.chars();
-    println!("Before:\n{contents}");
+// fn main() {
+//     let path = "error_handling.txt";
+//     let contents = read_content(&path).expect("Couldn't read from file");
+//     let text = contents.chars();
+//     println!("Before:\n{contents}");
 
-    let mut new_write: String = "".to_string();
-    let mut iterator: u16 = 1;
+//     let mut new_write: String = "".to_string();
+//     let mut iterator: u16 = 1;
 
-    for char in text {
-        // need to slice line up until \n is found.
-        if char == '\n' {
-            let mut out: String = iterator.to_string();
-            out.push_str("\n");
+//     for char in text {
+//         // need to slice line up until \n is found.
+//         if char == '\n' {
+//             let mut out: String = iterator.to_string();
+//             out.push_str("\n");
 
-            new_write.push_str(&out); // adds i as int to the line but as strnig
-            iterator += 1;
-        }
-    }
+//             new_write.push_str(&out); // adds i as int to the line but as strnig
+//             iterator += 1;
+//         }
+//     }
 
-    let _ = fs::write(&path, new_write).expect("Could not write to file");
+//     let _ = fs::write(&path, new_write).expect("Could not write to file");
 
-    let contents = read_content(&path).expect("Couldn't read from file");
+//     let contents = read_content(&path).expect("Couldn't read from file");
 
-    println!("After:\n{contents}");
-}
+//     println!("After:\n{contents}");
+// }
 
 // Iterators and Closures
 // Given a vector of integers, return a new vector containing only the squares of even numbers.
 // Implement this using iterator methods (filter, map, collect).
 // Goal: Practice idiomatic Rust functional programming.
+
+fn sqrt(x: i32) -> i32 {
+    (x as f64).sqrt() as i32
+}
+
+fn main() {
+    let nums: Vec<i32> = [1, 2, 3, 4, 5, 6, 7, 8, 64].to_vec();
+    // personally the for loop felt cleaner...
+    // for n in nums {
+    //     if n % 2 == 0 {
+    //         let sqrt_n: i32 = sqrt(n as f64);
+    //         if sqrt_n.pow(2) == n {
+    //             output.push(n);
+    //         }
+    //     }
+    // }
+
+    let output: Vec<i32> = nums
+        .iter()
+        .filter_map(|&n| {// filter_map requires Option!!!
+            if n % 2 == 0 && sqrt(n).pow(2) == n {
+                Some(n)
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    println!("{:?}", output);
+}
 
 // Lifetime Exercise
 // Write a function longest<'a>(x: &'a str, y: &'a str) -> &'a str that returns the longer string.
