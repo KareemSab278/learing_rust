@@ -173,35 +173,35 @@
 // Implement this using iterator methods (filter, map, collect).
 // Goal: Practice idiomatic Rust functional programming.
 
-fn sqrt(x: i32) -> i32 {
-    (x as f64).sqrt() as i32
-}
+// fn sqrt(x: i32) -> i32 {
+//     (x as f64).sqrt() as i32
+// }
 
-fn main() {
-    let nums: Vec<i32> = [1, 2, 3, 4, 5, 6, 7, 8, 64].to_vec();
-    // personally the for loop felt cleaner...
-    // for n in nums {
-    //     if n % 2 == 0 {
-    //         let sqrt_n: i32 = sqrt(n as f64);
-    //         if sqrt_n.pow(2) == n {
-    //             output.push(n);
-    //         }
-    //     }
-    // }
+// fn main() {
+//     let nums: Vec<i32> = [1, 2, 3, 4, 5, 6, 7, 8, 64].to_vec();
+//     // personally the for loop felt cleaner...
+//     // for n in nums {
+//     //     if n % 2 == 0 {
+//     //         let sqrt_n: i32 = sqrt(n as f64);
+//     //         if sqrt_n.pow(2) == n {
+//     //             output.push(n);
+//     //         }
+//     //     }
+//     // }
 
-    let output: Vec<i32> = nums
-        .iter()
-        .filter_map(|&n| {// filter_map requires Option!!!
-            if n % 2 == 0 && sqrt(n).pow(2) == n {
-                Some(n)
-            } else {
-                None
-            }
-        })
-        .collect();
+//     let output: Vec<i32> = nums
+//         .iter()
+//         .filter_map(|&n| {// filter_map requires Option!!!
+//             if n % 2 == 0 && sqrt(n).pow(2) == n {
+//                 Some(n)
+//             } else {
+//                 None
+//             }
+//         })
+//         .collect();
 
-    println!("{:?}", output);
-}
+//     println!("{:?}", output);
+// }
 
 // Lifetime Exercise
 // Write a function longest<'a>(x: &'a str, y: &'a str) -> &'a str that returns the longer string.
@@ -220,11 +220,45 @@ fn main() {
 // Merge the results safely using Arc<Mutex<Vec<i32>>>.
 // Goal: Learn safe concurrency with Rust.
 
-// Smart Pointers
-// Implement a simple linked list using Box.
-// Add methods to append, remove, and print nodes.
-// Goal: Understand heap allocation and recursive types.
+// so one vec. two threads. each thread has half of the vec. then return the total of both halfs at end of process...
 
-// Macros
-// Write a macro vec_of_strings! that creates a Vec<String> from a list of literals.
-// Goal: Learn how to write simple declarative macros.
+use std::thread;
+use std::time::Duration;
+use std::sync::{ Arc, Mutex };
+
+// Rust concurrency safety
+// mutex makes shared data safe to access across multiple threads by ensuring that only one thread can access the data at a time.
+// Arc (Atomic Reference Counted) allows multiple threads to share ownership of the same data, and it automatically deallocates the data when there are no more references to it.
+// By combining Arc and Mutex, we can safely share and modify data across multiple threads without risking data corruption
+
+fn main() {
+    let input = Arc::new((1..=100).collect::<Vec<i32>>());
+
+    let input1 = Arc::clone(&input);
+    let input2 = Arc::clone(&input);
+
+    let total = Arc::new(Mutex::new(0));
+    let total1 = Arc::clone(&total);
+    let total2 = Arc::clone(&total);
+
+    let first_half = thread::spawn(move || {
+        for i in input1.iter().take(50) {
+            *total1.lock().unwrap() += *i as u32;
+            thread::sleep(Duration::from_millis(10));
+        }
+        total1;
+    });
+
+    let second_half = thread::spawn(move || {
+        for i in input2.iter().skip(50) {
+            *total2.lock().unwrap() += *i as u32;
+            thread::sleep(Duration::from_millis(10));
+        }
+        total2;
+    });
+
+    first_half.join().expect("first half panicked and died visciously lol");
+    second_half.join().expect("second half panicked and died visciously lol");
+    let total = total.lock().expect("total mutex got poisoned by a thread panicking");
+    println!("Total: {}", *total);
+}
