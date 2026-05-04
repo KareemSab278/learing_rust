@@ -22,6 +22,7 @@ fn combinations(input: Vec<i16>) -> i16 {
     input.iter().fold(1, |acc, x| acc * x) // just like reduce in ts/js
 }
 
+// how many cars can you build
 #[allow(dead_code)]
 fn cars(wheels: i16, car_bodies: i16, figures: i16) -> i16 {
     let from_wheels = wheels / 4;
@@ -35,13 +36,23 @@ fn cars(wheels: i16, car_bodies: i16, figures: i16) -> i16 {
 }
 
 // return an array with all odd and even nums added up.
+#[allow(dead_code)]
 fn totalNums(input: Vec<i16>) -> Vec<i16>{
     let odd_total = input.iter().filter(|&x| {x % 2 == 0}).sum();
     let even_total = input.iter().filter(|&x| {x % 2 == 1}).sum();
     [odd_total, even_total].to_vec()
 }
 
+// uncensor("Wh*r* d*d my v*w*ls g*?", "eeioeo") ➞ "Where did my vowels go?"
+fn uncensor(phrase: String, missing_vowels: String) -> String {
+    let mut i = 0;
+    let mut output = phrase.clone();
+    while i < missing_vowels.len() as i16{
+        output.replace("*", missing_vowels[i]); // cant do this in rust because string as stored in utf8 buffer. i will have to iterate over the entire thing using rust methods instead of loops
+        i+=1;
+    }
+    output.to_string()
+}
 
 fn main() {
-    println!("{:?}", totalNums([1,3,2,2,5,6].to_vec()));
 }
