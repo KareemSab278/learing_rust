@@ -1,6 +1,5 @@
 mod challenges;
 
 fn main() {
-    let max_value = challenges::find_max(vec![3, 1, 4, 1, 5, 9]);
-    println!("Max value: {:?}", max_value);
+    println!("sum of 123 is {}", challenges::sum_digits(123));
 }

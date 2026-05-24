@@ -626,16 +626,26 @@ pub fn find_max(values: Vec<i32>) -> Option<i32> {
     values.iter().max().cloned() // max returns an Option<&i32> so need to clone it to get an Option<i32>
 }
 
+fn remove_whitespace(s: &mut String) {
+    s.retain(|c| !c.is_whitespace());
+    // The .retain method takes a closure (a function-like block) and evaluates every element in a collection.
+    // It keeps the elements where the condition is true and deletes/drops the elements where it evaluates to false
+}
+
 // Check whether a string is a palindrome, ignoring spaces and case.
 #[allow(dead_code, unused_variables)]
-fn is_palindrome(text: String) -> bool {
-    // TODO: normalize the string and compare it with its reverse
-    unimplemented!()
+pub fn is_palindrome(text: &str) -> bool {
+    let mut normalized_text : String = text.to_lowercase();
+    remove_whitespace(&mut normalized_text);
+
+    let palindrome_check :bool = normalized_text == normalized_text.chars().rev().collect::<String>();
+    palindrome_check
 }
 
 // Sum the digits of a non-negative number.
+// example: sum_digits(123) -> 6 (1 + 2 + 3)
 #[allow(dead_code, unused_variables)]
-fn sum_digits(number: u32) -> u32 {
-    // TODO: split the digits and add them together
-    unimplemented!()
+pub fn sum_digits(number: u32) -> u32 {
+    let out = number.to_string().split("").map(|c| c.parse::<u32>().unwrap_or(0)).sum::<u32>();
+    out
 }
