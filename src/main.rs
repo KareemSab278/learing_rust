@@ -1,5 +1,5 @@
 mod challenges;
 
 fn main() {
-    println!("sum of 123 is {}", challenges::sum_digits(123));
+    println!("{}", challenges::rev_words("mark, i made a steak"));
 }

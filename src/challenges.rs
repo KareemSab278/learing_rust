@@ -279,7 +279,6 @@ impl Shape {
     }
 }
 
-
 // Beginner Exercises
 
 // Hello, Ownership
@@ -545,11 +544,12 @@ impl Shape {
 //     println!("Total: {}", *total);
 // }
 
-
-
 #[allow(dead_code)]
 fn count_truths(input: Vec<bool>) -> u16 {
-    let truths = input.iter().filter(|i| **i==true).count() as u16;
+    let truths = input
+        .iter()
+        .filter(|i| **i == true)
+        .count() as u16;
     println!("found truths: {truths}");
     return truths;
 }
@@ -564,7 +564,7 @@ fn redundant(input: String) -> impl Fn() -> String {
 // The function should return the number of permutations (combinations) of choices you would have if you selected one item from each group.
 #[allow(dead_code)]
 fn combinations(input: Vec<i16>) -> i16 {
-     input.iter().fold(1, |acc, x| acc * x) // just like reduce in ts/js
+    input.iter().fold(1, |acc, x| acc * x) // just like reduce in ts/js
 }
 
 // How many toy cars can you build?
@@ -574,33 +574,40 @@ fn cars(wheels: i16, car_bodies: i16, figures: i16) -> i16 {
     let from_bodies = car_bodies;
     let from_figures = figures / 2;
 
-    *[from_wheels, from_bodies, from_figures]
-        .iter()
-        .min()
-        .expect("someting went wrong")
+    *[from_wheels, from_bodies, from_figures].iter().min().expect("someting went wrong")
 }
 
 // Return a vector with the sum of even numbers first and odd numbers second.
 #[allow(dead_code)]
 fn total_nums(input: Vec<i16>) -> Vec<i16> {
-    let odd_total = input.iter().filter(|&x| {x % 2 == 0}).sum();
-    let even_total = input.iter().filter(|&x| {x % 2 == 1}).sum();
+    let odd_total = input
+        .iter()
+        .filter(|&x| { x % 2 == 0 })
+        .sum();
+    let even_total = input
+        .iter()
+        .filter(|&x| { x % 2 == 1 })
+        .sum();
     [odd_total, even_total].to_vec()
 }
 
 // uncensor("Wh*r* d*d my v*w*ls g*?", "eeioeo") ➞ "Where did my vowels go?"
 #[allow(dead_code)]
 fn uncensor(phrase: String, missing_vowels: String) -> String {
-   let mut i: usize = 0;
-    let output = phrase.chars().map(|c| {
-        if c == '*' {
-            let vowel = missing_vowels.chars().nth(i).expect("not enough vowels provided");
-            i += 1;
-            vowel
-        } else {
-            c
-        }
-    }).collect::<String>().to_string();
+    let mut i: usize = 0;
+    let output = phrase
+        .chars()
+        .map(|c| {
+            if c == '*' {
+                let vowel = missing_vowels.chars().nth(i).expect("not enough vowels provided");
+                i += 1;
+                vowel
+            } else {
+                c
+            }
+        })
+        .collect::<String>()
+        .to_string();
     output
 }
 
@@ -617,7 +624,10 @@ fn reverse_words(sentence: String) -> String {
 // Multiply all numbers in a vector by the given factor.
 #[allow(dead_code, unused_variables)]
 pub fn multiply_elements(values: Vec<i32>, factor: i32) -> Vec<i32> {
-    values.iter().map(|x| x * factor).collect::<Vec<i32>>()
+    values
+        .iter()
+        .map(|x| x * factor)
+        .collect::<Vec<i32>>()
 }
 
 // Return the maximum value in a vector, or `None` if the vector is empty.
@@ -635,10 +645,11 @@ fn remove_whitespace(s: &mut String) {
 // Check whether a string is a palindrome, ignoring spaces and case.
 #[allow(dead_code, unused_variables)]
 pub fn is_palindrome(text: &str) -> bool {
-    let mut normalized_text : String = text.to_lowercase();
+    let mut normalized_text: String = text.to_lowercase();
     remove_whitespace(&mut normalized_text);
 
-    let palindrome_check :bool = normalized_text == normalized_text.chars().rev().collect::<String>();
+    let palindrome_check: bool =
+        normalized_text == normalized_text.chars().rev().collect::<String>();
     palindrome_check
 }
 
@@ -646,6 +657,87 @@ pub fn is_palindrome(text: &str) -> bool {
 // example: sum_digits(123) -> 6 (1 + 2 + 3)
 #[allow(dead_code, unused_variables)]
 pub fn sum_digits(number: u32) -> u32 {
-    let out = number.to_string().split("").map(|c| c.parse::<u32>().unwrap_or(0)).sum::<u32>();
+    let out = number
+        .to_string()
+        .split("")
+        .map(|c| c.parse::<u32>().unwrap_or(0))
+        .sum::<u32>();
     out
 }
+
+
+
+#[allow(dead_code, unused_variables)]
+pub fn word_frequency(text: &str) -> HashMap<String, usize> {
+    let mut frequency_map = HashMap::new();
+    for word in text.split_whitespace() {
+        let count = frequency_map.entry(word.to_string()).or_insert(0);
+        *count += 1;
+    }
+    frequency_map
+}
+
+#[allow(dead_code, unused_variables)]
+pub fn largest(numbers: &[i32]) -> Option<i32> {
+    numbers
+        .iter()
+        .map(|&x| x)
+        .max()
+}
+
+#[allow(dead_code, unused_variables)]
+pub fn rev_words(sentence: &str) -> String {
+    let mut rev_words = "".to_string();
+    for word in sentence.split_whitespace().rev() {
+        rev_words.push_str(word);
+        rev_words.push(' ');
+    }
+    rev_words.trim().to_string()
+}
+
+// expected output: rev_words("hello world") -> "world hello"
+
+// find an item from a list of items {name, quantity} and return the quantity of that item. if not found return None
+#[allow(dead_code, unused_variables)]
+pub struct Item {
+    name: String,
+    quantity: u32,
+}
+
+#[allow(dead_code, unused_variables)]
+pub fn find_item(items: &[Item], name: &str) -> Option<u32> {
+    let mut item_hmap = HashMap::new();
+    for item in items {
+        item_hmap.insert(item.name.clone(), item.quantity);
+    }
+    item_hmap.get(name).cloned() // returns the quantity of the item if found, otherwise returns None
+}
+
+#[allow(dead_code, unused_variables)]
+fn calc_median(numbers: &mut Vec<i32>) -> Option<f64> {
+    numbers.sort();
+    let midway = numbers.len() / 2;
+
+    if numbers.len() % 2 == 0 {
+        let median = ((numbers[midway - 1] + numbers[midway]) as f64) / 2.0;
+        Some(median)
+    } else {
+        Some(numbers[midway] as f64)
+    }
+}
+
+#[allow(dead_code, unused_variables)]
+struct UrlParts {
+    protocol: String,
+    host: String,
+}
+
+#[allow(dead_code, unused_variables)]
+fn parse_url(url: &str) -> UrlParts {
+    let parts = url.split("://").collect::<Vec<&str>>();
+    let protocol = parts[0].to_string();
+    let host = parts[1].to_string();
+    UrlParts { protocol, host }
+}
+
+// expected output: parse_url("https://google.com") -> UrlParts { protocol: "https", host: "google.com" }
