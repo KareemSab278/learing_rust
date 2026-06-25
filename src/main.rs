@@ -1,5 +1,7 @@
 mod challenges;
+mod neet_code;
 
 fn main() {
-    println!("{}", challenges::rev_words("mark, i made a steak"));
+    let nums = vec![1, 2, 3, 4, 5, 1];
+    println!("{}", neet_code::has_duplicate(nums));
 }
