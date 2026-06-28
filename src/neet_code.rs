@@ -26,5 +26,34 @@ pub fn valid_anagram(phrase: &str, phrase1: &str) -> bool {
 	}
 
 	hashmap == hashmap1
+}
 
+
+//return the index of the numbers that add up to target
+pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32>{
+    // sort the vec first, then find out where the two numbers add up
+    // then find the idnexes for those nums in the original vec
+
+    let mut first = 0;
+    let mut second = nums.len() as i32;
+    let mut output: Vec<i32> = Vec::new();
+    second -= 1;
+    
+    while first < second {
+        if nums[first as usize] + nums[second as usize] > target{
+            second -= 1;
+        }
+        if nums[first as usize] + nums[second as usize] < target{
+            first += 1;
+        }
+        else {
+
+    output.push(first);
+    output.push(second);
+    return output;
+
+        }
+    }
+
+    output
 }
