@@ -41,7 +41,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32>{
     
     while first < second {
         if nums[first as usize] + nums[second as usize] > target{
-            second -= 1;
+            second -= 1
         }
         if nums[first as usize] + nums[second as usize] < target{
             first += 1;
@@ -56,4 +56,21 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32>{
     }
 
     output
+}
+
+
+pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
+    let mut groups: std::collections::HashMap<String, Vec<String>> = std::collections::HashMap::new();
+
+    for s in strs {
+        // create sorted version of the word
+        let mut chars: Vec<char> = s.chars().collect();
+        chars.sort_unstable();
+
+        let key: String = chars.into_iter().collect();
+
+        groups.entry(key).or_default().push(s);
+    }
+
+    groups.into_values().collect()
 }

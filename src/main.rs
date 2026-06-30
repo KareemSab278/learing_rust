@@ -2,6 +2,6 @@ mod challenges;
 mod neet_code;
 
 fn main() {
-    
-    println!("{:?}", neet_code::two_sum(Vec::<i32>::from([1,2,3,4,5]), 6));
+    let strs : Vec<String> = Vec::from(["act","pots","tops","cat","stop","hat"]).iter().map(|s| s.to_string()).collect();
+    println!("{:?}", neet_code::group_anagrams(strs));
 }
