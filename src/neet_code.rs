@@ -1,4 +1,5 @@
 // gonna try doing 1 neetcode problem a day.
+use std::collections::HashMap;
 
 pub fn has_duplicate(nums: Vec<i32>) -> bool { // return true if there are duplicates in the array, false otherwise
     // do a set from the array and compare the length of the set to the length of the array
@@ -73,4 +74,22 @@ pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
     }
 
     groups.into_values().collect()
+}
+
+
+pub fn top_k_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {
+    let mut counts = HashMap::new();
+
+    for n in nums {
+        *counts.entry(n).or_insert(0) += 1;
+    }
+
+    let mut freq: Vec<(i32, i32)> = counts.into_iter().collect();
+
+    freq.sort_by(|a, b| b.1.cmp(&a.1));
+
+    freq.into_iter()
+        .take(k as usize)
+        .map(|(num, _)| num)
+        .collect()
 }
