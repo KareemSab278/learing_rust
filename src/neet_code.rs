@@ -93,7 +93,7 @@ pub fn top_k_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {
         .map(|(num, _)| num)
         .collect()
 }
-
+#[allow(dead_code)]
 pub struct Solution {}
 
 impl Solution {
@@ -102,6 +102,26 @@ impl Solution {
     }
 
     pub fn decode(s: String) -> Vec<String> {
-        s.split("@^^^@").map(|s| s.to_string()).collect()
+        s.split("@^^^@")
+            .map(|s| s.to_string())
+            .collect()
     }
+}
+
+pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
+    let mut output: Vec<i32> = Vec::new();
+
+    let mut filter_pos: i32 = 0; // imma use this to filter the current position and add it to the output.
+
+    for _ in 0..nums.len() {
+        output.push(
+            nums
+                .iter()
+                .filter(|&&x| x != nums[filter_pos as usize])
+                .product()
+        );
+        filter_pos += 1;
+    }
+
+    output
 }
