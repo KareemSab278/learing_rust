@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 rand = "0.8"
 read_input = "0.8"
+reqwest = "0.13.4"
