@@ -10,46 +10,44 @@ use crate::challenges1::Shape::Circle;
 */
 #[derive(Debug, PartialEq, Eq)]
 pub enum Direction {
-    North, East, South, West,
+    North,
+    East,
+    South,
+    West,
 }
 
 impl Direction {
     pub fn turn_right(self) -> Direction {
-        if self == Direction::North{
+        if self == Direction::North {
             Direction::East;
         } else if self == Direction::East {
             Direction::South;
         } else if self == Direction::South {
             Direction::West;
-        } 
+        }
         Direction::North
-        
     }
 
     pub fn turn_left(self) -> Direction {
-        if self == Direction::North{
-             Direction::West;}
-        else if self == Direction::West{
+        if self == Direction::North {
+            Direction::West;
+        } else if self == Direction::West {
             Direction::South;
-        }
-        else if self == Direction::South{
+        } else if self == Direction::South {
             Direction::East;
         }
         Direction::North
     }
 
     pub fn degrees(&self) -> u16 {
-        if self == &Direction::North{
+        if self == &Direction::North {
             0;
-        }
-        else if self == &Direction::East{
+        } else if self == &Direction::East {
             -90;
-        }
-        else if self == &Direction::West{
+        } else if self == &Direction::West {
             90;
         }
         180
-
     }
 }
 
@@ -76,7 +74,10 @@ impl Rectangle {
     }
 
     pub fn square(size: u32) -> Rectangle {
-        Rectangle { width: (size), height: (size) }
+        Rectangle {
+            width: (size),
+            height: (size),
+        }
     }
 }
 
@@ -133,11 +134,9 @@ impl TrafficLight {
     pub fn next(self) -> TrafficLight {
         if self == TrafficLight::Red {
             TrafficLight::Green
-        } 
-        else if self == TrafficLight::Green {
+        } else if self == TrafficLight::Green {
             TrafficLight::Yellow
-        }
-        else {
+        } else {
             TrafficLight::Green
         }
     }
@@ -166,10 +165,11 @@ impl Message {
     pub fn describe(&self) -> String {
         match self {
             Message::Quit => "Quit Message".to_string(),
-            Message::Move{x,y} => format!("Move to x={x}, y={y}").to_string(),
+            Message::Move { x, y } => format!("Move to x={x}, y={y}").to_string(),
             Message::Write(mssg) => mssg.to_string(),
-            Message::ChangeColor(color1, color2, color3)
-            => format!("Changed colors to {color1}, {color2}, {color3}")
+            Message::ChangeColor(color1, color2, color3) => {
+                format!("Changed colors to {color1}, {color2}, {color3}")
+            }
         }
     }
 }
@@ -289,7 +289,10 @@ impl<T> Pair<T> {
     }
 
     pub fn swap(self) -> Pair<T> {
-        Pair { first: self.second, second: self.first }
+        Pair {
+            first: self.second,
+            second: self.first,
+        }
     }
 }
 
@@ -344,16 +347,32 @@ pub async fn fetch_status(url: &str) -> Result<u16, reqwest::Error> {
    sanitize("Hello, World!") -> "hello world"
 */
 pub fn sanitize(input: &str) -> String {
-    unimplemented!()
-}
+    let keep_chars: Vec<char>= "abcdefghijklmnopqrstuvwxyz".chars().collect();
 
+    input
+        .to_lowercase()
+        .chars()
+        .filter(|c| keep_chars.contains(c))
+        .collect::<String>()
+}
 /* Challenge 14: Title-case converter
    Write `title_case(input: &str) -> String` that capitalizes the first letter of each word.
    Expected output:
    title_case("rust programming") -> "Rust Programming"
 */
 pub fn title_case(input: &str) -> String {
-    unimplemented!()
+    input
+        .split_whitespace() // Split by whitespace (not just spaces)
+        .map(|word| {
+            let mut chars = word.chars();
+            if let Some(first_char) = chars.next() {
+                format!("{}{}", first_char.to_uppercase(), chars.as_str())
+            } else {
+                String::new()
+            }
+        })
+        .collect::<Vec<String>>()
+        .join(" ")
 }
 
 /* Challenge 15: Vec filter and map
@@ -390,6 +409,10 @@ pub fn word_count(text: &str) -> std::collections::HashMap<String, usize> {
    Expected behavior:
    inventory["apple"] = 3 -> update_inventory(&mut inventory, "apple", 2) -> 5
 */
-pub fn update_inventory(inventory: &mut std::collections::HashMap<String, u32>, item: &str, amount: u32) {
+pub fn update_inventory(
+    inventory: &mut std::collections::HashMap<String, u32>,
+    item: &str,
+    amount: u32,
+) {
     unimplemented!()
 }
