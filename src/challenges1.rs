@@ -347,7 +347,7 @@ pub async fn fetch_status(url: &str) -> Result<u16, reqwest::Error> {
    sanitize("Hello, World!") -> "hello world"
 */
 pub fn sanitize(input: &str) -> String {
-    let keep_chars: Vec<char>= "abcdefghijklmnopqrstuvwxyz".chars().collect();
+    let keep_chars: Vec<char> = "abcdefghijklmnopqrstuvwxyz".chars().collect();
 
     input
         .to_lowercase()
@@ -381,7 +381,11 @@ pub fn title_case(input: &str) -> String {
    even_squares(vec![1,2,3,4]) -> vec![4, 16]
 */
 pub fn even_squares(numbers: Vec<i32>) -> Vec<i32> {
-    unimplemented!()
+    numbers
+        .iter()
+        .filter(|n| *n % 2 == 0)
+        .map(|x| x * x)
+        .collect()
 }
 
 /* Challenge 16: Vec zipper
@@ -390,7 +394,15 @@ pub fn even_squares(numbers: Vec<i32>) -> Vec<i32> {
    zip_sum(vec![1,2,3], vec![4,5,6]) -> vec![5,7,9]
 */
 pub fn zip_sum(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
-    unimplemented!()
+    //     In this implementation:
+    // - `a.into_iter().zip(b.into_iter())` creates an iterator that pairs elements from both vectors.
+    // - `.map(|(x, y)| x + y)` applies the function to each pair of elements (summing them).
+    // - `.collect()` gathers the results into a new vector.
+    //. i never would have guessed it could do that wtf???
+    a.into_iter()
+        .zip(b.into_iter())
+        .map(|(x, y)| x + y)
+        .collect()
 }
 
 /* Challenge 17: HashMap frequency counter
@@ -399,8 +411,14 @@ pub fn zip_sum(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
    Expected output:
    word_count("a a b") -> {"a": 2, "b": 1}
 */
-pub fn word_count(text: &str) -> std::collections::HashMap<String, usize> {
-    unimplemented!()
+use std::collections::HashMap;
+pub fn word_count(text: &str) -> HashMap<String, usize> {
+    text.split_whitespace()
+        .into_iter()
+        .fold(HashMap::new(), |mut acc, word| {
+            *acc.entry(word.to_string()).or_insert(0) += 1;
+            acc
+        })
 }
 
 /* Challenge 18: Inventory updater
@@ -410,9 +428,9 @@ pub fn word_count(text: &str) -> std::collections::HashMap<String, usize> {
    inventory["apple"] = 3 -> update_inventory(&mut inventory, "apple", 2) -> 5
 */
 pub fn update_inventory(
-    inventory: &mut std::collections::HashMap<String, u32>,
+    inventory: &mut HashMap<String, u32>,
     item: &str,
     amount: u32,
 ) {
-    unimplemented!()
+    *inventory.entry(item.to_string()).or_insert(0) += amount;
 }
