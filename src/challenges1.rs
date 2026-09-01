@@ -17,37 +17,39 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn turn_right(self) -> Direction {
+    pub fn turn_right(self) -> Result<Direction, &'static str> {
         if self == Direction::North {
-            Direction::East;
+            return Ok(Direction::East);
         } else if self == Direction::East {
-            Direction::South;
+            return Ok(Direction::South);
         } else if self == Direction::South {
-            Direction::West;
+            return Ok(Direction::West);
         }
-        Direction::North
+        Err("Invalid direction")
     }
 
-    pub fn turn_left(self) -> Direction {
+    pub fn turn_left(self) -> Result<Direction, &'static str> {
         if self == Direction::North {
-            Direction::West;
+            return Ok(Direction::West);
         } else if self == Direction::West {
-            Direction::South;
+            return Ok(Direction::South);
         } else if self == Direction::South {
-            Direction::East;
+            return Ok(Direction::East);
         }
-        Direction::North
+        Err("Invalid direction")
     }
 
-    pub fn degrees(&self) -> u16 {
+    pub fn degrees(&self) -> Result<u16, &'static str> {
         if self == &Direction::North {
-            0;
+            return Ok(0);
         } else if self == &Direction::East {
-            -90;
+            return Ok(90);
         } else if self == &Direction::West {
-            90;
+            return Ok(270);
+        } else if self == &Direction::South {
+            return Ok(180);
         }
-        180
+        Err("Invalid direction")
     }
 }
 
